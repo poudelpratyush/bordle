@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewprt" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle</title>
     <link rel="stylesheet" href="wordle.css">
 </head>
@@ -12,27 +12,57 @@
     <header>
         <nav class="top-bar">
             <ul>
-                <li class="question-mark-button"><a href="#"><img src="question-mark.png" alt="questions"></a></li>
+                <li class="question-mark-button"><a href="#"><img src="img/question-mark.png" alt="questions"></a></li>
                 <li><a href="#">WORDLE</a></li>
-                <li><a href="#"><img src="settings.png" alt="settings"></a></li>
+                <li><a href="#"><img src="img/settings.png" alt="settings"></a></li>
             </ul>
         </nav>
     </header>
 
     <!--for the word boxes-->
-    <section>
-        <div class="board">
-
-        </div>
-    </section>
+    <div class="board-container" id="board">
+    </div>
 
     <!--for the keyboard-->
-    <section>
-
-    </section>
+    <div class="keyboard">
+        <div class="row">
+            <button class="key">Q</button>
+            <button class="key">W</button>
+            <button class="key">E</button>
+            <button class="key">R</button>
+            <button class="key">T</button>
+            <button class="key">Y</button>
+            <button class="key">U</button>
+            <button class="key">I</button>
+            <button class="key">O</button>
+            <button class="key">P</button>
+        </div>
+        <div class="row">
+            <button class="key">A</button>
+            <button class="key">S</button>
+            <button class="key">D</button>
+            <button class="key">F</button>
+            <button class="key">G</button>
+            <button class="key">H</button>
+            <button class="key">J</button>
+            <button class="key">K</button>
+            <button class="key">L</button>
+        </div>
+        <div class="row">
+            <button class="special-key">ENTER</button>
+            <button class="key">Z</button>
+            <button class="key">X</button>
+            <button class="key">C</button>
+            <button class="key">V</button>
+            <button class="key">B</button>
+            <button class="key">N</button>
+            <button class="key">M</button>
+            <button class="special-key"><img src="img/backspace-dark.png" alt="backspace"></button>
+        </div>
+    </div>
 
     <!--for the bottom of the page-->
-    <footer>
+    <footer class="end">
 
     </footer>
     </div>
