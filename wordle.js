@@ -17,25 +17,40 @@ document.addEventListener("DOMContentLoaded", () =>{
 
 let userInp = [];
 let boxCount = 1;
-let needToChange = false;
 const possibleKeys = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i",
     "j", "k", "l", "m", "n", "o", "p", "q", "r", 
     "s", "t", "u", "v", "w", "x", "y", "z", "Enter", "Backspace"
 ];
 
-const checkIfNeedToChange = () =>{
-    if (userInp.length % 5 == 0 && userInp.length != 0){
-        needToChange = true;
+
+const canTypeMore = () => {
+    if (userInp.length != 5){
+        return true
     }
-    else{
-        needToChange = false;
+    return false
+}
+
+const validateWord = async (word) =>{
+    try{
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        if (response.status === 404){
+            console.log("Word could not be found (404)")
+            return false
+        }
+        else{
+            console.log("Word exists")
+            return true
+        }
+    }
+    catch (error){
+        console.error(error);
+        return false
     }
 }
 
 const clickedButton = (currKey) => {
-    checkIfNeedToChange();
-    if (currKey != "ER" && currKey != "BS" && !needToChange){
+    if (currKey != "ER" && currKey != "BS" && canTypeMore()){
         console.log("boxCount: ", boxCount);
         userInp.push(currKey);
         const currBox = document.getElementById(boxCount);
@@ -43,8 +58,13 @@ const clickedButton = (currKey) => {
         boxCount++;
     }  
     else if (currKey == "ER"){
-        if (needToChange){
-            // we need to then check and post the first guess
+        if (!canTypeMore()){
+            validateWord(userInp.join("")).then((valid) => {
+                console.log(valid);
+                if (valid){
+                    userInp = [];
+                }
+            });   
         }
     }
     else if (currKey == "BS"){
