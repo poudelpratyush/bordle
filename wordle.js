@@ -18,8 +18,11 @@ document.addEventListener("DOMContentLoaded", () =>{
 let userInp = [];
 let boxCount = 1;
 let needToChange = false;
-
-
+const possibleKeys = [
+    "a", "b", "c", "d", "e", "f", "g", "h", "i",
+    "j", "k", "l", "m", "n", "o", "p", "q", "r", 
+    "s", "t", "u", "v", "w", "x", "y", "z", "Enter", "Backspace"
+];
 
 const checkIfNeedToChange = () =>{
     if (userInp.length % 5 == 0 && userInp.length != 0){
@@ -41,7 +44,6 @@ const clickedButton = (currKey) => {
     }  
     else if (currKey == "ER"){
         if (needToChange){
-            needToChange = true;
             // we need to then check and post the first guess
         }
     }
@@ -60,8 +62,23 @@ const container = document.querySelector(".keyboard");
 container.addEventListener("click", (event) =>{
     if (event.target.tagName === "BUTTON"){
         let buttPressed = event.target.id;
-        console.log("You pressed: ", buttPressed);
+        console.log("event click button");
         clickedButton(event.target.id);
+    }
+});
+
+document.addEventListener("keyup", (event) => {
+    console.log("You pressed: ", event);
+    if (possibleKeys.includes(event.key)){
+        if (event.key !== "Backspace" && event.key !== "Enter"){
+            clickedButton((event.key).toUpperCase());
+        }
+        else if (event.key == "Enter"){
+            clickedButton("ER");
+        }
+        else if (event.key == "Backspace"){
+            clickedButton("BS");
+        }
     }
 });
 
