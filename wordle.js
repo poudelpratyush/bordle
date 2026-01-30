@@ -1,3 +1,14 @@
+
+let userInp = [];
+let boxCount = 1;
+let guessNum = 0;
+const possibleKeys = [
+    "a", "b", "c", "d", "e", "f", "g", "h", "i",
+    "j", "k", "l", "m", "n", "o", "p", "q", "r", 
+    "s", "t", "u", "v", "w", "x", "y", "z", "Enter", "Backspace"
+];
+let gameWon = false;
+
 document.addEventListener("DOMContentLoaded", () =>{
     const createSquares = () =>{
 
@@ -13,16 +24,6 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     createSquares();
 })
-
-let userInp = [];
-let boxCount = 1;
-let guessNum = 0;
-const possibleKeys = [
-    "a", "b", "c", "d", "e", "f", "g", "h", "i",
-    "j", "k", "l", "m", "n", "o", "p", "q", "r", 
-    "s", "t", "u", "v", "w", "x", "y", "z", "Enter", "Backspace"
-];
-
 
 const canTypeMore = () => {
     if (userInp.length != 5 && guessNum < 6){
@@ -46,13 +47,18 @@ const getTodaysWord = async () =>{
             const diffInMs = today - pastDate;
             const diffInDays = Math.floor(diffInMs / (1000 * 3600 * 24));
             
+            todaysWord = data[diffInDays];
             return data[diffInDays];
         }
     }
     catch (error){
         console.error(error);
+        return "Error"
     }
 }
+
+
+
 
 
 const validateWord = async (word) =>{
@@ -63,7 +69,6 @@ const validateWord = async (word) =>{
             return false
         }
         else{
-            console.log("Word exists");
             return true
         }
     }
@@ -73,47 +78,52 @@ const validateWord = async (word) =>{
     }
 }
 
+
 const clickedButton = (currKey) => {
-    if (currKey != "ER" && currKey != "BS" && canTypeMore()){
-        console.log("boxCount: ", boxCount);
-        userInp.push(currKey);
-        const currBox = document.getElementById(boxCount);
-        currBox.textContent = currKey;
-        boxCount++;
-    }  
-    else if (currKey == "ER"){
-        if (!canTypeMore()){
-            validateWord(userInp.join("")).then((valid) => {
-                console.log(valid);
-                if (valid){
-                    guessNum ++;
-                    userInp = [];
-                }
-            });   
+    if (!gameWon){
+        if (currKey != "ER" && currKey != "BS" && canTypeMore()){
+            userInp.push(currKey);
+            const currBox = document.getElementById(boxCount);
+            currBox.textContent = currKey;
+            boxCount++;
+        }  
+        else if (currKey == "ER"){
+            if (!canTypeMore()){
+                validateWord(userInp.join("")).then((valid) => {
+                    if (valid){
+                        getTodaysWord().then((word) => {
+                            if (userInp.join("").toLowerCase() == word){
+                                console.log("Win!!!");
+                                gameWon = true;
+                            }  
+                            else{
+                                guessNum ++;
+                                userInp = [];
+                            }
+                        });
+                    }
+                });   
+            }
+        }
+        else if (currKey == "BS"){
+            if (userInp.length > 0){
+                boxCount--;
+                userInp.pop();
+                removeFromGrid(boxCount);
+            }
         }
     }
-    else if (currKey == "BS"){
-        if (userInp.length > 0){
-            boxCount--;
-            userInp.pop();
-            removeFromGrid(boxCount);
-        }
-    }
-    console.log(boxCount);
-    console.log(userInp);
 }
 
 const container = document.querySelector(".keyboard");
 container.addEventListener("click", (event) =>{
     if (event.target.tagName === "BUTTON"){
         let buttPressed = event.target.id;
-        console.log("event click button");
         clickedButton(event.target.id);
     }
 });
 
 document.addEventListener("keyup", (event) => {
-    console.log("You pressed: ", event);
     if (possibleKeys.includes(event.key)){
         if (event.key !== "Backspace" && event.key !== "Enter"){
             clickedButton((event.key).toUpperCase());
@@ -129,6 +139,5 @@ document.addEventListener("keyup", (event) => {
 
 const removeFromGrid = (currCount) =>{
     const currBox = document.getElementById(currCount);
-    console.log(currBox);
     currBox.textContent = "";
 }
