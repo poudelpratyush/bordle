@@ -1,6 +1,7 @@
 
 let userInp = [];
 let boxCount = 1;
+let rowCount = 1;
 let guessNum = 0;
 const possibleKeys = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i",
@@ -91,6 +92,7 @@ const clickedButton = (currKey) => {
             if (!canTypeMore()){
                 validateWord(userInp.join("")).then((valid) => {
                     if (valid){
+                        changeColors(userInp.join(""));
                         getTodaysWord().then((word) => {
                             if (userInp.join("").toLowerCase() == word){
                                 console.log("Win!!!");
@@ -113,6 +115,26 @@ const clickedButton = (currKey) => {
             }
         }
     }
+    console.log(userInp);
+}
+
+
+const changeColors = (userWord) =>{
+    getTodaysWord().then((wordOfDay) =>{
+        let wrd = userWord.toLowerCase();
+        
+        for (let i = 0; i < 5; i++){
+            let currBox = 5 * (rowCount - 1) + (i + 1)
+            const boxDOM = document.getElementById(currBox);
+            if (wrd[i] == wordOfDay[i]){
+                boxDOM.classList.add("greenSquare");
+            }
+            else if (wordOfDay.includes(wrd[i])){
+                boxDOM.classList.add("graySquare");
+            }
+        }
+        rowCount++;
+    });
 }
 
 const container = document.querySelector(".keyboard");

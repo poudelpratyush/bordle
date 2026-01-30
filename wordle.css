@@ -57,7 +57,7 @@ a{
 }
 
 .square{
-    border: 2px solid gray;
+    border: 2px solid rgb(211, 214, 218);
     min-width: 50px;
     min-height: 50px;
     display: flex;
@@ -65,6 +65,14 @@ a{
     align-items: center;
     font-size: 25px;
     font-weight: bold;
+}
+
+.greenSquare{
+    background-color: rgb(106, 170, 100);
+}
+
+.graySquare{
+    background-color: rgb(120, 124, 126);
 }
 
 .keyboard{
@@ -102,3 +110,4 @@ a{
     display: flex;
     justify-content: center;
 }
+
