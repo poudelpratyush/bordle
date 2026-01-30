@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () =>{
     const createSquares = () =>{
 
@@ -17,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
 let userInp = [];
 let boxCount = 1;
+let guessNum = 0;
 const possibleKeys = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i",
     "j", "k", "l", "m", "n", "o", "p", "q", "r", 
@@ -25,21 +25,45 @@ const possibleKeys = [
 
 
 const canTypeMore = () => {
-    if (userInp.length != 5){
+    if (userInp.length != 5 && guessNum < 6){
         return true
     }
     return false
 }
 
+const getTodaysWord = async () =>{
+    try{
+        const response = await fetch("./words/words.json");
+        if (!response.ok){
+            console.log("Error");
+            return "Error"
+        }
+        else{
+            data = await response.json();
+
+            const pastDate = new Date(2026, 0, 29);
+            const today = new Date();
+            const diffInMs = today - pastDate;
+            const diffInDays = Math.floor(diffInMs / (1000 * 3600 * 24));
+            
+            return data[diffInDays];
+        }
+    }
+    catch (error){
+        console.error(error);
+    }
+}
+
+
 const validateWord = async (word) =>{
     try{
         const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
         if (response.status === 404){
-            console.log("Word could not be found (404)")
+            console.log("Word could not be found (404)");
             return false
         }
         else{
-            console.log("Word exists")
+            console.log("Word exists");
             return true
         }
     }
@@ -62,6 +86,7 @@ const clickedButton = (currKey) => {
             validateWord(userInp.join("")).then((valid) => {
                 console.log(valid);
                 if (valid){
+                    guessNum ++;
                     userInp = [];
                 }
             });   
@@ -101,7 +126,6 @@ document.addEventListener("keyup", (event) => {
         }
     }
 });
-
 
 const removeFromGrid = (currCount) =>{
     const currBox = document.getElementById(currCount);
