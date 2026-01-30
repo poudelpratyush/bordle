@@ -115,7 +115,6 @@ const clickedButton = (currKey) => {
             }
         }
     }
-    console.log(userInp);
 }
 
 

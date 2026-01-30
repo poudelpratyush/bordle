@@ -69,14 +69,19 @@ a{
 
 .greenSquare{
     background-color: rgb(106, 170, 100);
+    border: 2px solid rgb(106, 170, 100);
 }
 
 .graySquare{
     background-color: rgb(120, 124, 126);
+    border: 2px solid rgb(120, 124, 126);
 }
 
 .keyboard{
     margin: 25px;
+}
+.keyboard button img{
+    pointer-events: none;
 }
 
 .key{
