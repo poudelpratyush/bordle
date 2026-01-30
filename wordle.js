@@ -128,14 +128,19 @@ const changeColors = (userWord) =>{
             const boxDOM = document.getElementById(currBox);
             if (wrd[i] == wordOfDay[i]){
                 boxDOM.classList.add("greenSquare");
+                const keyDOM = document.getElementById(wrd[i].toUpperCase());
+                keyDOM.classList.add("greenKey");
             }
             else if (wordOfDay.includes(wrd[i])){
+                const keyDOM = document.getElementById(wrd[i].toUpperCase());
                 boxDOM.classList.add("graySquare");
+                keyDOM.classList.add("grayKey");
             }
         }
         rowCount++;
     });
 }
+
 
 const container = document.querySelector(".keyboard");
 container.addEventListener("click", (event) =>{

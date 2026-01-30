@@ -91,6 +91,15 @@ a{
     cursor: pointer;
 }
 
+.greenKey{
+    background-color: rgb(106, 170, 100);
+}
+
+.grayKey{
+    background-color: rgb(120, 124, 126);
+}
+
+
 .special-key{
     font-size: 10px;
     border: none;
